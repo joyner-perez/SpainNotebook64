@@ -1,3 +1,7 @@
+// Field positions/lengths are inherent declarative data (MagicNumber); the registry of all
+// formats is legitimately large (LargeClass). Both are suppressed for this data-definition file.
+@file:Suppress("MagicNumber", "LargeClass")
+
 package com.joyner.notebook64.spec
 
 /**
@@ -35,8 +39,8 @@ object FormatDefinitions {
                     FieldSpec("numeroNotificacion", 13, 7, "Número de notificación"),
                     FieldSpec("digitosControlClave", 20, 2, "Dígitos de control de la clave"),
                     FieldSpec("importe", 22, 7, "Importe en céntimos"),
-                    FieldSpec("digitosControlImporte", 29, 2, "Dígitos de control del importe"),
-                ),
+                    FieldSpec("digitosControlImporte", 29, 2, "Dígitos de control del importe")
+                )
         )
 
     // ─── Appendix A: Clave de Cobro Municipal (501, 503 y similares) ───────────
@@ -44,10 +48,7 @@ object FormatDefinitions {
     // 501 = Tributos Admin. Local | 503 = Multas Ayuntamiento
     // Same structure, same DC algorithm (Formato 001). DC "Igual a Formato 501".
 
-    private fun claveCobroMunicipal(
-        tipo: String,
-        description: String,
-    ) = FormatSpec(
+    private fun claveCobroMunicipal(tipo: String, description: String) = FormatSpec(
         tipo = tipo,
         description = description,
         expectedLength = 32,
@@ -63,31 +64,12 @@ object FormatDefinitions {
                 FieldSpec("notificacion", 13, 7, "Número de notificación"),
                 FieldSpec("digitosControlClave", 20, 2, "Dígitos de control de la clave de cobro"),
                 FieldSpec("importe", 22, 9, "Importe en céntimos"),
-                FieldSpec("digitosControlImporte", 31, 2, "Dígitos de control del importe"),
-            ),
+                FieldSpec("digitosControlImporte", 31, 2, "Dígitos de control del importe")
+            )
     )
 
     val TIPO_501 = claveCobroMunicipal("501", "Tributos Administración Local")
     val TIPO_503 = claveCobroMunicipal("503", "Multas Ayuntamiento")
-
-    // Tipos 502-585 (Apéndice A): posiciones pendientes de confirmar con el documento.
-    private fun domiciliacionPendiente(
-        tipo: String,
-        description: String,
-    ) = FormatSpec(
-        tipo = tipo,
-        description = description,
-        expectedLength = 37,
-        tipoFieldStart = 1,
-        fields =
-            listOf(
-                FieldSpec("tipo", 1, 3, "Indicador de tipo"),
-                FieldSpec("codigoPresentador", 4, 10, "Código del presentador/emisor [PENDIENTE CONFIRMAR]"),
-                FieldSpec("referenciaRecibo", 14, 12, "Referencia del recibo [PENDIENTE CONFIRMAR]"),
-                FieldSpec("importe", 26, 10, "Importe [PENDIENTE CONFIRMAR]"),
-                FieldSpec("indicadorOpcional", 36, 2, "Indicador opcional [PENDIENTE CONFIRMAR]"),
-            ),
-    )
 
     // Tipo 502 spec confirmed. Full barcode 38 chars (AI "90" + payload 36 chars).
     // Sub-fields of emisora(6), referencia(12) and identificacion(7) are exposed flat.
@@ -104,12 +86,17 @@ object FormatDefinitions {
                     FieldSpec("municipio", 6, 3, "Código municipio"),
                     FieldSpec("digitoControlEmisora", 9, 1, "Dígito de control de emisora"),
                     FieldSpec("identificacionDocumento", 10, 10, "Identificación del documento"),
-                    FieldSpec("digitosControlReferencia", 20, 2, "Dígitos de control de referencia"),
+                    FieldSpec(
+                        "digitosControlReferencia",
+                        20,
+                        2,
+                        "Dígitos de control de referencia"
+                    ),
                     FieldSpec("tributo", 22, 3, "Código tributo (Anexo 6 Cuadernos 34/60)"),
                     FieldSpec("ejercicio", 25, 2, "Ejercicio fiscal"),
                     FieldSpec("remesa", 27, 2, "Número de remesa"),
-                    FieldSpec("importe", 29, 8, "Importe en céntimos"),
-                ),
+                    FieldSpec("importe", 29, 8, "Importe en céntimos")
+                )
         )
 
     // Tipo 508 spec confirmed. Full barcode 48 chars (AI "90" + payload 46 chars).
@@ -129,12 +116,17 @@ object FormatDefinitions {
                     FieldSpec("municipio", 16, 3, "Código municipio"),
                     FieldSpec("digitoControlEmisora", 19, 1, "Dígito de control de emisora"),
                     FieldSpec("identificacionDocumento", 20, 10, "Identificación del documento"),
-                    FieldSpec("digitosControlReferencia", 30, 2, "Dígitos de control de referencia"),
+                    FieldSpec(
+                        "digitosControlReferencia",
+                        30,
+                        2,
+                        "Dígitos de control de referencia"
+                    ),
                     FieldSpec("tributo", 32, 3, "Código tributo"),
                     FieldSpec("ejercicio", 35, 2, "Ejercicio fiscal"),
                     FieldSpec("remesa", 37, 2, "Número de remesa"),
-                    FieldSpec("importe", 39, 8, "Importe en céntimos"),
-                ),
+                    FieldSpec("importe", 39, 8, "Importe en céntimos")
+                )
         )
 
     // Tipo 521 spec confirmed. Full barcode 42 chars (AI "90" + payload 40 chars).
@@ -151,15 +143,25 @@ object FormatDefinitions {
                     FieldSpec("municipio", 6, 3, "Código municipio"),
                     FieldSpec("digitoControlEmisora", 9, 1, "Dígito de control de emisora"),
                     FieldSpec("identificacionDocumento", 10, 10, "Identificación del documento"),
-                    FieldSpec("digitosControlReferencia", 20, 2, "Dígitos de control de referencia"),
-                    FieldSpec("discriminantePeriodo", 22, 1, "Discriminante del período (fijo '1')"),
+                    FieldSpec(
+                        "digitosControlReferencia",
+                        20,
+                        2,
+                        "Dígitos de control de referencia"
+                    ),
+                    FieldSpec(
+                        "discriminantePeriodo",
+                        22,
+                        1,
+                        "Discriminante del período (fijo '1')"
+                    ),
                     FieldSpec("tributo", 23, 3, "Código tributo (Anexo 6 Cuaderno 60)"),
                     FieldSpec("ejercicioDevengo", 26, 2, "Ejercicio de devengo"),
                     FieldSpec("anioFechaLimite", 28, 1, "Último dígito del año de fecha límite"),
                     FieldSpec("fechaJulianaLimite", 29, 3, "Fecha juliana límite de pago"),
                     FieldSpec("importe", 32, 8, "Importe en céntimos"),
-                    FieldSpec("digitoParidad", 40, 1, "Dígito de paridad (= '0')"),
-                ),
+                    FieldSpec("digitoParidad", 40, 1, "Dígito de paridad (= '0')")
+                )
         )
 
     // Tipo 522 spec confirmed. Full barcode 54 chars (AI "90" + payload 52 chars).
@@ -182,13 +184,33 @@ object FormatDefinitions {
                     FieldSpec("digitosControlConRecargo", 22, 2, "DC para importes con recargo"),
                     FieldSpec("tributo", 24, 3, "Código tributo (Anexo Común II Cuaderno 60)"),
                     FieldSpec("ejercicioDevengo", 27, 2, "Ejercicio de devengo"),
-                    FieldSpec("anioFechaLimiteSinRecargo", 29, 1, "Último dígito año fecha límite sin recargo"),
-                    FieldSpec("fechaJulianaLimiteSinRecargo", 30, 3, "Fecha juliana límite sin recargo"),
+                    FieldSpec(
+                        "anioFechaLimiteSinRecargo",
+                        29,
+                        1,
+                        "Último dígito año fecha límite sin recargo"
+                    ),
+                    FieldSpec(
+                        "fechaJulianaLimiteSinRecargo",
+                        30,
+                        3,
+                        "Fecha juliana límite sin recargo"
+                    ),
                     FieldSpec("importeSinRecargo", 33, 8, "Importe sin recargo en céntimos"),
-                    FieldSpec("anioFechaLimiteConRecargo", 41, 1, "Último dígito año fecha límite con recargo"),
-                    FieldSpec("fechaJulianaLimiteConRecargo", 42, 3, "Fecha juliana límite con recargo"),
-                    FieldSpec("importeConRecargo", 45, 8, "Importe con recargo en céntimos"),
-                ),
+                    FieldSpec(
+                        "anioFechaLimiteConRecargo",
+                        41,
+                        1,
+                        "Último dígito año fecha límite con recargo"
+                    ),
+                    FieldSpec(
+                        "fechaJulianaLimiteConRecargo",
+                        42,
+                        3,
+                        "Fecha juliana límite con recargo"
+                    ),
+                    FieldSpec("importeConRecargo", 45, 8, "Importe con recargo en céntimos")
+                )
         )
 
     // Tipo 523 spec confirmed. Full barcode 24 chars (AI "90" + payload 22 chars).
@@ -207,8 +229,13 @@ object FormatDefinitions {
                     FieldSpec("codigoTributoModelo", 10, 3, "Código de tributo o modelo"),
                     FieldSpec("indicadorDatosCapturar", 13, 1, "Indicador de datos a capturar"),
                     FieldSpec("numeroSecuencial", 14, 8, "Número secuencial"),
-                    FieldSpec("digitoControlJustificante", 22, 1, "Dígito de control del justificante"),
-                ),
+                    FieldSpec(
+                        "digitoControlJustificante",
+                        22,
+                        1,
+                        "Dígito de control del justificante"
+                    )
+                )
         )
 
     // Tipo 579 spec confirmed. Full barcode 36 chars (AI "90" + payload 34 chars).
@@ -229,8 +256,8 @@ object FormatDefinitions {
                     FieldSpec("referencia", 13, 10, "Referencia del recibo"),
                     FieldSpec("año", 23, 2, "Año"),
                     FieldSpec("digitosControlRecibo", 25, 2, "Dígitos de control del recibo"),
-                    FieldSpec("importe", 27, 8, "Importe en céntimos"),
-                ),
+                    FieldSpec("importe", 27, 8, "Importe en céntimos")
+                )
         )
 
     // Tipo 580 spec confirmed. Full barcode 46 chars (AI "90" + payload 44 chars).
@@ -251,8 +278,8 @@ object FormatDefinitions {
                     FieldSpec("codigoSujeto", 10, 13, "Código/identificación del sujeto"),
                     FieldSpec("referencia", 23, 11, "Referencia abonaré"),
                     FieldSpec("control", 34, 10, "Control: DDMMAAAA + 2 dígitos de control"),
-                    FieldSpec("digitoParidad", 44, 1, "Dígito de paridad (= '0')"),
-                ),
+                    FieldSpec("digitoParidad", 44, 1, "Dígito de paridad (= '0')")
+                )
         )
 
     // Tipo 582 spec confirmed. Full barcode 36 chars (AI "90" + payload 34 chars).
@@ -272,8 +299,8 @@ object FormatDefinitions {
                     FieldSpec("identificador", 10, 17, "Identificador del recibo"),
                     FieldSpec("discriminanteGestor", 27, 5, "Discriminante del gestor"),
                     FieldSpec("digitosControlGestor", 32, 2, "Dígitos de control del gestor"),
-                    FieldSpec("digitoParidad", 34, 1, "Dígito de paridad (= '0')"),
-                ),
+                    FieldSpec("digitoParidad", 34, 1, "Dígito de paridad (= '0')")
+                )
         )
 
     // Tipo 583 spec confirmed. Full barcode 46 chars (AI "90" + payload 44 chars).
@@ -292,8 +319,8 @@ object FormatDefinitions {
                     FieldSpec("digitoControlEmisora", 9, 1, "Dígito de control de emisora"),
                     FieldSpec("identificador", 10, 17, "Identificador del recibo"),
                     FieldSpec("control", 27, 10, "Control: DDMMAAAA + 2 dígitos de control"),
-                    FieldSpec("importe", 37, 8, "Importe en céntimos"),
-                ),
+                    FieldSpec("importe", 37, 8, "Importe en céntimos")
+                )
         )
 
     // Tipo 584 spec confirmed. Full barcode 49 chars (AI "90" + payload 47 chars).
@@ -313,8 +340,8 @@ object FormatDefinitions {
                     FieldSpec("numeroBoletín", 10, 9, "Número de boletín"),
                     FieldSpec("control", 19, 10, "Control: DDMMAAAA + 2 dígitos de control"),
                     FieldSpec("importe", 29, 8, "Importe en céntimos"),
-                    FieldSpec("matricula", 37, 11, "Matrícula del vehículo (alfanumérico)"),
-                ),
+                    FieldSpec("matricula", 37, 11, "Matrícula del vehículo (alfanumérico)")
+                )
         )
 
     // Tipo 585 spec confirmed. Full barcode 44 chars (AI "90" + payload 42 chars).
@@ -334,18 +361,15 @@ object FormatDefinitions {
                     FieldSpec("identificador", 10, 14, "Identificador del expediente"),
                     FieldSpec("control", 24, 10, "Control: DDMMAAAA + 2 dígitos de control"),
                     FieldSpec("importe", 34, 8, "Importe en céntimos"),
-                    FieldSpec("digitoParidad", 42, 1, "Dígito de paridad (= '0')"),
-                ),
+                    FieldSpec("digitoParidad", 42, 1, "Dígito de paridad (= '0')")
+                )
         )
 
     // ─── Appendix B: Tributarios en ventanilla bancaria ────────────────────────
     // Structure (37 chars): nif(9) + modelo(3) + ejercicio(2) + tipo(3) + periodo(2) + justificante(10) + importe(8)
     // Barcode example (tipo 534): 0051111111330053424083405001000006764
 
-    private fun tributarioVentanilla(
-        tipo: String,
-        description: String,
-    ) = FormatSpec(
+    private fun tributarioVentanilla(tipo: String, description: String) = FormatSpec(
         tipo = tipo,
         description = description,
         expectedLength = 37,
@@ -358,8 +382,8 @@ object FormatDefinitions {
                 FieldSpec("tipo", 15, 3, "Indicador de tipo"),
                 FieldSpec("periodo", 18, 2, "Período de la declaración"),
                 FieldSpec("numeroJustificante", 20, 10, "Número de justificante/documento"),
-                FieldSpec("importe", 30, 8, "Importe (2 decimales implícitos)"),
-            ),
+                FieldSpec("importe", 30, 8, "Importe (2 decimales implícitos)")
+            )
     )
 
     // Tipo 518 spec confirmed. Full barcode 57 chars (AI "90" + payload 55 chars).
@@ -374,13 +398,18 @@ object FormatDefinitions {
             fields =
                 listOf(
                     FieldSpec("tipo", 1, 3, "Indicador de tipo"),
-                    FieldSpec("codigoOrganismo", 4, 5, "Código de organismo/emisor (con DC módulo 11)"),
+                    FieldSpec(
+                        "codigoOrganismo",
+                        4,
+                        5,
+                        "Código de organismo/emisor (con DC módulo 11)"
+                    ),
                     FieldSpec("codigoTerritorial", 9, 6, "Código territorial"),
                     FieldSpec("numeroJustificante", 15, 13, "Número de justificante"),
                     FieldSpec("importe", 28, 15, "Importe en céntimos"),
                     FieldSpec("nif", 43, 9, "NIF del contribuyente (alfanumérico)"),
-                    FieldSpec("opcional", 52, 4, "Anagrama o espacios (alfanumérico)"),
-                ),
+                    FieldSpec("opcional", 52, 4, "Anagrama o espacios (alfanumérico)")
+                )
         )
 
     // Tipo 526 spec confirmed. Full barcode 46 chars (AI "90" + payload 44 chars).
@@ -396,14 +425,19 @@ object FormatDefinitions {
                     FieldSpec("tipo", 1, 3, "Indicador de tipo"),
                     FieldSpec("unidadGestora", 4, 6, "Unidad gestora"),
                     FieldSpec("entidadEmisora", 10, 3, "Entidad emisora"),
-                    FieldSpec("modeloConceptoPresupuestario", 13, 6, "Modelo/concepto presupuestario"),
+                    FieldSpec(
+                        "modeloConceptoPresupuestario",
+                        13,
+                        6,
+                        "Modelo/concepto presupuestario"
+                    ),
                     FieldSpec("numeroSecuencialImpreso", 19, 5, "Número secuencial impreso"),
                     FieldSpec("ejercicioImpresion", 24, 4, "Ejercicio de impresión o expedición"),
                     FieldSpec("claseEstado", 28, 3, "Clase y estado"),
                     FieldSpec("digitoControlN28", 31, 1, "Dígito de control del N-28"),
                     FieldSpec("digitoParidad", 32, 1, "Dígito de paridad (= '0')"),
-                    FieldSpec("importe", 33, 12, "Importe en céntimos"),
-                ),
+                    FieldSpec("importe", 33, 12, "Importe en céntimos")
+                )
         )
 
     // Tipo 527 spec confirmed. Full barcode 34 chars (AI "90" + payload 32 chars).
@@ -420,13 +454,18 @@ object FormatDefinitions {
                     FieldSpec("tipo", 1, 3, "Indicador de tipo"),
                     FieldSpec("unidadGestora", 4, 6, "Unidad gestora"),
                     FieldSpec("entidadEmisora", 10, 3, "Entidad emisora"),
-                    FieldSpec("modeloConceptoPresupuestario", 13, 6, "Modelo/concepto presupuestario"),
+                    FieldSpec(
+                        "modeloConceptoPresupuestario",
+                        13,
+                        6,
+                        "Modelo/concepto presupuestario"
+                    ),
                     FieldSpec("numeroSecuencialImpreso", 19, 5, "Número secuencial impreso"),
                     FieldSpec("ejercicioImpresion", 24, 4, "Ejercicio de impresión o expedición"),
                     FieldSpec("claseEstado", 28, 3, "Clase y estado"),
                     FieldSpec("digitoControlN28", 31, 1, "Dígito de control del N-28"),
-                    FieldSpec("digitoParidad", 32, 1, "Dígito de paridad (= '0')"),
-                ),
+                    FieldSpec("digitoParidad", 32, 1, "Dígito de paridad (= '0')")
+                )
         )
 
     // Tipo 534 spec confirmed. Full barcode 49 chars (AI "90" + payload 47 chars).
@@ -442,12 +481,17 @@ object FormatDefinitions {
                 listOf(
                     FieldSpec("tipo", 1, 3, "Indicador de tipo"),
                     FieldSpec("numeroJustificante", 4, 13, "Número de justificante"),
-                    FieldSpec("concepto", 17, 4, "Concepto del modelo (alfanumérico; blancos si no aplica)"),
+                    FieldSpec(
+                        "concepto",
+                        17,
+                        4,
+                        "Concepto del modelo (alfanumérico; blancos si no aplica)"
+                    ),
                     FieldSpec("importe", 21, 8, "Importe en céntimos"),
                     FieldSpec("nif", 29, 9, "NIF del contribuyente (alfanumérico)"),
                     FieldSpec("anagrama", 38, 4, "Anagrama (alfanumérico; blancos para jurídicas)"),
-                    FieldSpec("codigoTerritorial", 42, 6, "Código territorial (alfanumérico)"),
-                ),
+                    FieldSpec("codigoTerritorial", 42, 6, "Código territorial (alfanumérico)")
+                )
         )
 
     // Tipo 535 spec confirmed. Full barcode 41 chars (AI "90" + payload 39 chars).
@@ -464,8 +508,8 @@ object FormatDefinitions {
                     FieldSpec("numeroJustificante", 4, 13, "Número de justificante"),
                     FieldSpec("importe", 17, 8, "Importe en céntimos"),
                     FieldSpec("nif", 25, 9, "NIF del contribuyente (alfanumérico)"),
-                    FieldSpec("codigoTerritorial", 34, 6, "Código territorial (alfanumérico)"),
-                ),
+                    FieldSpec("codigoTerritorial", 34, 6, "Código territorial (alfanumérico)")
+                )
         )
 
     // Tipo 564 spec confirmed. Full barcode 45 chars (AI "90" + payload 43 chars).
@@ -483,34 +527,12 @@ object FormatDefinitions {
                     FieldSpec("codigoTerritorial", 17, 6, "Código territorial"),
                     FieldSpec("concepto", 23, 4, "Concepto del modelo"),
                     FieldSpec("importe", 27, 8, "Importe en céntimos"),
-                    FieldSpec("nif", 35, 9, "NIF del contribuyente (alfanumérico)"),
-                ),
+                    FieldSpec("nif", 35, 9, "NIF del contribuyente (alfanumérico)")
+                )
         )
     val TIPO_565 = tributarioVentanilla("565", "Pago tributario en ventanilla - variante 565")
 
     // ─── Appendix B/C: Tributarios con período alfanumérico ────────────────────
-    // Structure (39 chars): nif(9) + modelo(3) + ejercicio(2) + tipo(3) + periodo(2) + justificante(10) + importe(10)
-    // Período values: "00" aperiódico, "A0" anual, "1T"-"4T" trimestral, "01"-"12" mensual
-
-    private fun tributarioPeriodo(
-        tipo: String,
-        description: String,
-    ) = FormatSpec(
-        tipo = tipo,
-        description = description,
-        expectedLength = 39,
-        tipoFieldStart = 15,
-        fields =
-            listOf(
-                FieldSpec("nif", 1, 9, "NIF del contribuyente"),
-                FieldSpec("modelo", 10, 3, "Número de modelo tributario"),
-                FieldSpec("ejercicio", 13, 2, "Ejercicio fiscal (YY)"),
-                FieldSpec("tipo", 15, 3, "Indicador de tipo"),
-                FieldSpec("periodo", 18, 2, "Período (00/A0/1T-4T/01-12)"),
-                FieldSpec("numeroJustificante", 20, 10, "Número de justificante"),
-                FieldSpec("importe", 30, 10, "Importe (2 decimales implícitos)"),
-            ),
-    )
 
     // Tipo 539 spec confirmed. Full barcode 55 chars (AI "90" + payload 53 chars).
     // Cuaderno 65 AEB/CECA/UNACC — Autoliquidaciones CCAA con programas de ayuda.
@@ -525,15 +547,25 @@ object FormatDefinitions {
             fields =
                 listOf(
                     FieldSpec("tipo", 1, 3, "Indicador de tipo"),
-                    FieldSpec("codigoOrganismo", 4, 5, "Código organismo (61001=Andalucía … 79005=Melilla)"),
+                    FieldSpec(
+                        "codigoOrganismo",
+                        4,
+                        5,
+                        "Código organismo (61001=Andalucía … 79005=Melilla)"
+                    ),
                     FieldSpec("numeroJustificante", 9, 13, "Número de justificante"),
                     FieldSpec("importe", 22, 12, "Importe total de la declaración"),
                     FieldSpec("modelo", 34, 3, "Número de modelo"),
-                    FieldSpec("ejercicio", 37, 2, "Ejercicio (2 últimas cifras del año de devengo)"),
+                    FieldSpec(
+                        "ejercicio",
+                        37,
+                        2,
+                        "Ejercicio (2 últimas cifras del año de devengo)"
+                    ),
                     FieldSpec("nif", 39, 9, "NIF del sujeto pasivo"),
                     FieldSpec("periodo", 48, 2, "Período (0A/1T-4T/01-12, alfanumérico)"),
-                    FieldSpec("anagrama", 50, 4, "Anagrama del sujeto pasivo (alfanumérico)"),
-                ),
+                    FieldSpec("anagrama", 50, 4, "Anagrama del sujeto pasivo (alfanumérico)")
+                )
         )
 
     // Tipo 550 spec confirmed. Full barcode 60 chars (AI "90" + payload 58 chars).
@@ -553,8 +585,13 @@ object FormatDefinitions {
                     FieldSpec("ejercicio", 15, 4, "Ejercicio fiscal (YYYY)"),
                     FieldSpec("periodo", 19, 2, "Período (00/A0/1T-4T/01-12)"),
                     FieldSpec("justificante", 21, 13, "Número de justificante"),
-                    FieldSpec("datosAdicionales", 34, 25, "Datos adicionales libres por modelo (alfanumérico)"),
-                ),
+                    FieldSpec(
+                        "datosAdicionales",
+                        34,
+                        25,
+                        "Datos adicionales libres por modelo (alfanumérico)"
+                    )
+                )
         )
 
     // Tipo 551 spec confirmed. Full barcode 52 chars (AI "90" + payload 50 chars).
@@ -569,13 +606,18 @@ object FormatDefinitions {
             fields =
                 listOf(
                     FieldSpec("tipo", 1, 3, "Indicador de tipo"),
-                    FieldSpec("numeroJustificante", 4, 17, "Número de justificante (alfanumérico; blancos para completar)"),
+                    FieldSpec(
+                        "numeroJustificante",
+                        4,
+                        17,
+                        "Número de justificante (alfanumérico; blancos para completar)"
+                    ),
                     FieldSpec("importe", 21, 12, "Importe (2 decimales implícitos)"),
                     FieldSpec("nif", 33, 9, "NIF del sujeto pasivo (alfanumérico)"),
                     FieldSpec("ejercicio", 42, 4, "Año del ejercicio (YYYY)"),
                     FieldSpec("periodo", 46, 2, "Período (siempre '00')"),
-                    FieldSpec("modelo", 48, 3, "Número de modelo (numérico, opcional)"),
-                ),
+                    FieldSpec("modelo", 48, 3, "Número de modelo (numérico, opcional)")
+                )
         )
 
     // Tipo 559 spec confirmed. Full barcode 50 chars (AI "90" + payload 48 chars).
@@ -594,36 +636,11 @@ object FormatDefinitions {
                     FieldSpec("ejercicio", 15, 4, "Ejercicio (ceros si no aplica)"),
                     FieldSpec("periodo", 19, 2, "Período (ceros si no aplica)"),
                     FieldSpec("datosAdicionales", 21, 25, "Datos adicionales por modelo"),
-                    FieldSpec("modelo", 46, 3, "3 primeras posiciones del número de justificante"),
-                ),
+                    FieldSpec("modelo", 46, 3, "3 primeras posiciones del número de justificante")
+                )
         )
 
     // ─── Appendix C: Declaraciones AEAT complejas ──────────────────────────────
-    // Structure (36 chars): tipo(3) + nif(9) + modelo(5) + resultado(1) + modoPago(2) + ejercicio(4) + periodo(2) + importe(10)
-    // resultado: 0=Ingreso, 1=Devolución, 2=Negativa compensación cónyuges, 3=Negativa, 4=Renuncia devolución,
-    //            5=Compensar, 6=Sociedades CCT, 7=Negativa con resultado a deducir
-    // modoPago: 00=No fraccionable/no domiciliable, 01-12=varios modos (ver PDF)
-
-    private fun declaracionAeat(
-        tipo: String,
-        description: String,
-    ) = FormatSpec(
-        tipo = tipo,
-        description = description,
-        expectedLength = 36,
-        tipoFieldStart = 1,
-        fields =
-            listOf(
-                FieldSpec("tipo", 1, 3, "Indicador de tipo"),
-                FieldSpec("nif", 4, 9, "NIF del declarante"),
-                FieldSpec("modelo", 13, 5, "Número de modelo AEAT"),
-                FieldSpec("resultado", 18, 1, "Tipo de resultado (0-7)"),
-                FieldSpec("modoPago", 19, 2, "Modo de pago/fraccionamiento (00-12)"),
-                FieldSpec("ejercicio", 21, 4, "Ejercicio fiscal (YYYY)"),
-                FieldSpec("periodo", 25, 2, "Período de la declaración"),
-                FieldSpec("importe", 27, 10, "Importe (2 decimales implícitos)"),
-            ),
-    )
 
     // Tipo 512 spec confirmed. Full barcode 44 chars (AI "90" + payload 42 chars).
     // AEAT liquidaciones. Sub-fields of numeroJustificante exposed flat.
@@ -642,8 +659,8 @@ object FormatDefinitions {
                     FieldSpec("añoImpresion", 23, 2, "Año de impresión"),
                     FieldSpec("numeroSerie", 25, 8, "Número de serie"),
                     FieldSpec("digitoControl", 33, 1, "Dígito de control del justificante"),
-                    FieldSpec("nif", 34, 9, "NIF del contribuyente"),
-                ),
+                    FieldSpec("nif", 34, 9, "NIF del contribuyente")
+                )
         )
 
     // Tipo 530 spec confirmed. Full barcode 50 chars (AI "90" + payload 48 chars).
@@ -663,8 +680,8 @@ object FormatDefinitions {
                     FieldSpec("ejercicio", 32, 2, "Ejercicio de devengo (2 últimas cifras)"),
                     FieldSpec("nif", 34, 9, "NIF del sujeto pasivo (alfanumérico)"),
                     FieldSpec("periodo", 43, 2, "Período (fijo '0A')"),
-                    FieldSpec("anagrama", 45, 4, "Anagrama del sujeto pasivo (alfanumérico)"),
-                ),
+                    FieldSpec("anagrama", 45, 4, "Anagrama del sujeto pasivo (alfanumérico)")
+                )
         )
 
     // Tipo 532 spec confirmed. Full barcode 63 chars (AI "90" + payload 61 chars).
@@ -684,13 +701,18 @@ object FormatDefinitions {
                     FieldSpec("tipo", 1, 3, "Indicador de tipo"),
                     FieldSpec("tipoDeclaracion", 4, 1, "Tipo de declaración (0-6)"),
                     FieldSpec("tipoEspecifico", 5, 2, "Tipo específico (00-12)"),
-                    FieldSpec("iban", 7, 24, "IBAN cta. devolución/cargo/domiciliación (ESXXBBBBDCCCCCCCCCCC)"),
+                    FieldSpec(
+                        "iban",
+                        7,
+                        24,
+                        "IBAN cta. devolución/cargo/domiciliación (ESXXBBBBDCCCCCCCCCCC)"
+                    ),
                     FieldSpec("importeIngresar", 31, 12, "Importe a ingresar/devolver"),
                     FieldSpec("importeTotal", 43, 12, "Importe total de la declaración"),
                     FieldSpec("modelo", 55, 3, "Código de modelo"),
                     FieldSpec("ejercicio", 58, 2, "Ejercicio (2 últimas cifras)"),
-                    FieldSpec("periodo", 60, 2, "Período (0A/1T-4T/01-12, alfanumérico)"),
-                ),
+                    FieldSpec("periodo", 60, 2, "Período (0A/1T-4T/01-12, alfanumérico)")
+                )
         )
 
     // Tipo 533 spec confirmed. Full barcode 40 chars (AI "90" + payload 38 chars).
@@ -708,10 +730,15 @@ object FormatDefinitions {
                     FieldSpec("modelo", 16, 3, "Número de modelo"),
                     FieldSpec("codigoTasa", 19, 3, "Código de tasa"),
                     FieldSpec("numeroSerie", 22, 6, "Número de serie"),
-                    FieldSpec("digitoControlJustificante", 28, 1, "Dígito de control del justificante"),
+                    FieldSpec(
+                        "digitoControlJustificante",
+                        28,
+                        1,
+                        "Dígito de control del justificante"
+                    ),
                     FieldSpec("nif", 29, 9, "NIF del contribuyente"),
-                    FieldSpec("digitoParidad", 38, 1, "Dígito de paridad (= '0')"),
-                ),
+                    FieldSpec("digitoParidad", 38, 1, "Dígito de paridad (= '0')")
+                )
         )
 
     // Tipo 558 spec confirmed. Full barcode 58 chars (AI "90" + payload 56 chars).
@@ -728,12 +755,22 @@ object FormatDefinitions {
                     FieldSpec("tipo", 1, 3, "Indicador de tipo"),
                     FieldSpec("tipoDeclaracion", 4, 1, "Tipo de declaración (0-7)"),
                     FieldSpec("tipoEspecifico", 5, 2, "Tipo específico (00-12)"),
-                    FieldSpec("iban", 7, 24, "IBAN cta. devolución/cargo/domiciliación (ESXXBBBBDCCCCCCCCCCC)"),
+                    FieldSpec(
+                        "iban",
+                        7,
+                        24,
+                        "IBAN cta. devolución/cargo/domiciliación (ESXXBBBBDCCCCCCCCCCC)"
+                    ),
                     FieldSpec("importeIngresar", 31, 12, "Importe a ingresar/devolver en céntimos"),
-                    FieldSpec("importeTotal", 43, 10, "Importe total de la declaración en céntimos"),
+                    FieldSpec(
+                        "importeTotal",
+                        43,
+                        10,
+                        "Importe total de la declaración en céntimos"
+                    ),
                     FieldSpec("ejercicio", 53, 2, "Ejercicio (2 últimas cifras)"),
-                    FieldSpec("periodo", 55, 2, "Período (0A/1T-4T/01-12, alfanumérico)"),
-                ),
+                    FieldSpec("periodo", 55, 2, "Período (0A/1T-4T/01-12, alfanumérico)")
+                )
         )
 
     // ─── Cuaderno 57 AEB/CECA/UNACC ────────────────────────────────────────────
@@ -741,10 +778,7 @@ object FormatDefinitions {
     // 507 = Recibos y otros (ventanilla/autoservicio)
     // 581 = Tesorería General de la Seguridad Social
 
-    private fun cuaderno57(
-        tipo: String,
-        description: String,
-    ) = FormatSpec(
+    private fun cuaderno57(tipo: String, description: String) = FormatSpec(
         tipo = tipo,
         description = description,
         expectedLength = 44,
@@ -757,8 +791,8 @@ object FormatDefinitions {
                 FieldSpec("referencia", 15, 13, "Referencia"),
                 FieldSpec("identificacion", 28, 6, "Identificación"),
                 FieldSpec("importe", 34, 10, "Importe en céntimos"),
-                FieldSpec("digitoParidad", 44, 1, "Dígito de paridad (= '0')"),
-            ),
+                FieldSpec("digitoParidad", 44, 1, "Dígito de paridad (= '0')")
+            )
     )
 
     val TIPO_507 = cuaderno57("507", "Recibos y otros - cobros por ventanilla o autoservicio")
@@ -769,7 +803,8 @@ object FormatDefinitions {
     val TIPO_529 =
         FormatSpec(
             tipo = "529",
-            description = "Recibos y otros con entidad tesorera y fecha límite - cobros por ventanilla",
+            description =
+                "Recibos y otros con entidad tesorera y fecha límite - cobros por ventanilla",
             expectedLength = 52,
             tipoFieldStart = 1,
             fields =
@@ -782,8 +817,8 @@ object FormatDefinitions {
                     FieldSpec("referencia", 25, 13, "Referencia"),
                     FieldSpec("identificacion", 38, 6, "Identificación"),
                     FieldSpec("importe", 44, 8, "Importe en céntimos"),
-                    FieldSpec("digitoParidad", 52, 1, "Dígito de paridad (= '0')"),
-                ),
+                    FieldSpec("digitoParidad", 52, 1, "Dígito de paridad (= '0')")
+                )
         )
 
     // Tipo 528 spec confirmed. Full barcode 52 chars (AI "90" + payload 50 chars).
@@ -803,8 +838,8 @@ object FormatDefinitions {
                     FieldSpec("identificacion", 28, 6, "Identificación"),
                     FieldSpec("importe", 34, 10, "Importe en céntimos"),
                     FieldSpec("fechaLimitePago", 44, 6, "Fecha límite de pago (DDMMAA)"),
-                    FieldSpec("digitoParidad", 50, 1, "Dígito de paridad (= '0')"),
-                ),
+                    FieldSpec("digitoParidad", 50, 1, "Dígito de paridad (= '0')")
+                )
         )
 
     // Tipo 525 spec confirmed. Full barcode 46 chars (AI "90" + payload 44 chars).
@@ -824,8 +859,8 @@ object FormatDefinitions {
                     FieldSpec("sufijo", 22, 3, "Sufijo"),
                     FieldSpec("referencia", 25, 13, "Referencia"),
                     FieldSpec("identificacion", 38, 6, "Identificación"),
-                    FieldSpec("digitoParidad", 44, 1, "Dígito de paridad (= '0')"),
-                ),
+                    FieldSpec("digitoParidad", 44, 1, "Dígito de paridad (= '0')")
+                )
         )
 
     // Tipo 524 spec confirmed. Full barcode 36 chars (AI "90" + payload 34 chars).
@@ -843,8 +878,8 @@ object FormatDefinitions {
                     FieldSpec("sufijo", 12, 3, "Sufijo"),
                     FieldSpec("referencia", 15, 13, "Referencia"),
                     FieldSpec("identificacion", 28, 6, "Identificación"),
-                    FieldSpec("digitoParidad", 34, 1, "Dígito de paridad (= '0')"),
-                ),
+                    FieldSpec("digitoParidad", 34, 1, "Dígito de paridad (= '0')")
+                )
         )
 
     // Tipo 515 spec confirmed. Full barcode 40 chars (AI "90" + payload 38 chars).
@@ -863,8 +898,8 @@ object FormatDefinitions {
                     FieldSpec("emisora", 14, 8, "Emisora"),
                     FieldSpec("sufijo", 22, 3, "Sufijo"),
                     FieldSpec("referencia", 25, 13, "Referencia"),
-                    FieldSpec("digitoParidad", 38, 1, "Dígito de paridad (= '0')"),
-                ),
+                    FieldSpec("digitoParidad", 38, 1, "Dígito de paridad (= '0')")
+                )
         )
 
     // Tipo 514 spec confirmed. Full barcode 30 chars (AI "90" + payload 28 chars).
@@ -881,8 +916,8 @@ object FormatDefinitions {
                     FieldSpec("emisora", 4, 8, "Emisora"),
                     FieldSpec("sufijo", 12, 3, "Sufijo"),
                     FieldSpec("referencia", 15, 13, "Referencia"),
-                    FieldSpec("digitoParidad", 28, 1, "Dígito de paridad (= '0')"),
-                ),
+                    FieldSpec("digitoParidad", 28, 1, "Dígito de paridad (= '0')")
+                )
         )
 
     // ─── Lotería de Catalunya ──────────────────────────────────────────────────
@@ -902,8 +937,8 @@ object FormatDefinitions {
                     FieldSpec("ultimosDigitosIP", 6, 2, "Últimos dígitos IP"),
                     FieldSpec("marcaTiempo", 8, 9, "Marca de tiempo"),
                     FieldSpec("secuencial", 17, 3, "Número secuencial"),
-                    FieldSpec("digitosControl", 20, 2, "Dígitos de control (alfanumérico)"),
-                ),
+                    FieldSpec("digitosControl", 20, 2, "Dígitos de control (alfanumérico)")
+                )
         )
 
     // Tipo 573 spec confirmed. Full barcode 27 chars (AI "90" + payload 25 chars).
@@ -921,8 +956,8 @@ object FormatDefinitions {
                     FieldSpec("numeroLibro", 8, 6, "Número de libro"),
                     FieldSpec("numeroTicket", 14, 3, "Número de ticket"),
                     FieldSpec("numeroValidacion", 17, 8, "Número de validación encriptado"),
-                    FieldSpec("digitoControl", 25, 1, "Dígito de control"),
-                ),
+                    FieldSpec("digitoControl", 25, 1, "Dígito de control")
+                )
         )
 
     // Tipo 572 spec confirmed. Full barcode 27 chars (AI "90" + payload 25 chars).
@@ -940,8 +975,8 @@ object FormatDefinitions {
                     FieldSpec("numeroLibro", 8, 6, "Número de libro"),
                     FieldSpec("numeroTicket", 14, 3, "Número de ticket"),
                     FieldSpec("numeroValidacion", 17, 8, "Número de validación encriptado"),
-                    FieldSpec("digitoControl", 25, 1, "Dígito de control"),
-                ),
+                    FieldSpec("digitoControl", 25, 1, "Dígito de control")
+                )
         )
 
     // ─── Loterías y Apuestas del Estado ────────────────────────────────────────
@@ -950,15 +985,16 @@ object FormatDefinitions {
     val TIPO_586 =
         FormatSpec(
             tipo = "586",
-            description = "Loterías y Apuestas del Estado - identificación administración de lotería",
+            description =
+                "Loterías y Apuestas del Estado - identificación administración de lotería",
             expectedLength = 16,
             tipoFieldStart = 1,
             fields =
                 listOf(
                     FieldSpec("tipo", 1, 3, "Indicador de tipo"),
                     FieldSpec("codigoAdminLoteria", 4, 12, "Código de administración de lotería"),
-                    FieldSpec("digitoParidad", 16, 1, "Dígito de paridad (= '0')"),
-                ),
+                    FieldSpec("digitoParidad", 16, 1, "Dígito de paridad (= '0')")
+                )
         )
 
     // ─── ONCE ──────────────────────────────────────────────────────────────────
@@ -976,12 +1012,17 @@ object FormatDefinitions {
                     FieldSpec("tipo", 1, 3, "Indicador de tipo"),
                     FieldSpec("versionCodigo", 4, 1, "Versión del código"),
                     FieldSpec("digitosControl", 5, 2, "Dígitos de control"),
-                    FieldSpec("identificadorProducto", 7, 2, "Identificador de producto pasivos TPV"),
+                    FieldSpec(
+                        "identificadorProducto",
+                        7,
+                        2,
+                        "Identificador de producto pasivos TPV"
+                    ),
                     FieldSpec("diaJulianoVenta", 9, 3, "Día juliano de venta"),
                     FieldSpec("numeroApuesta", 12, 8, "Número de apuesta"),
                     FieldSpec("digitosControlApuesta", 20, 3, "Dígitos de control de la apuesta"),
-                    FieldSpec("contadorDiario", 23, 4, "Código interno ONCE - Gols"),
-                ),
+                    FieldSpec("contadorDiario", 23, 4, "Código interno ONCE - Gols")
+                )
         )
 
     // Tipo 590 spec confirmed. Full barcode 24 chars (AI "90" + payload 22 chars).
@@ -1000,8 +1041,8 @@ object FormatDefinitions {
                     FieldSpec("identificadorProducto", 7, 2, "Identificador de producto"),
                     FieldSpec("fechaSorteo", 9, 6, "Fecha del sorteo (ddmmaa)"),
                     FieldSpec("numeroApuesta", 15, 5, "Número de apuesta"),
-                    FieldSpec("numeroSerie", 20, 3, "Número de serie"),
-                ),
+                    FieldSpec("numeroSerie", 20, 3, "Número de serie")
+                )
         )
 
     // Tipo 589 spec confirmed. Full barcode 28 chars (AI "90" + payload 26 chars).
@@ -1022,8 +1063,8 @@ object FormatDefinitions {
                     FieldSpec("diaJulianoVenta", 9, 3, "Día juliano de venta"),
                     FieldSpec("numeroSerieApuesta", 12, 8, "Número de serie de la apuesta"),
                     FieldSpec("digitosControlApuesta", 20, 3, "Dígitos de control de la apuesta"),
-                    FieldSpec("contadorDiario", 23, 4, "Contador diario continuo Gols"),
-                ),
+                    FieldSpec("contadorDiario", 23, 4, "Contador diario continuo Gols")
+                )
         )
 
     // Tipo 588 spec confirmed. Full barcode 22 chars (AI "90" + payload 20 chars).
@@ -1039,8 +1080,8 @@ object FormatDefinitions {
                     FieldSpec("tipo", 1, 3, "Indicador de tipo"),
                     FieldSpec("codigoVendedor", 4, 8, "Código de vendedor"),
                     FieldSpec("numeroInternoONCE", 12, 7, "Número interno ONCE"),
-                    FieldSpec("digitosControl", 19, 2, "Dígitos de control"),
-                ),
+                    FieldSpec("digitosControl", 19, 2, "Dígitos de control")
+                )
         )
 
     // Tipo 587 spec confirmed. Full barcode 24 chars (AI "90" + payload 22 chars).
@@ -1058,8 +1099,8 @@ object FormatDefinitions {
                     FieldSpec("entidadFinanciera", 12, 4, "Código Banco España"),
                     FieldSpec("codigoOficina", 16, 4, "Código de oficina"),
                     FieldSpec("digitoParidad", 20, 1, "Dígito de paridad (= '0')"),
-                    FieldSpec("digitosControl", 21, 2, "Dígitos de control"),
-                ),
+                    FieldSpec("digitosControl", 21, 2, "Dígitos de control")
+                )
         )
 
     // Tipo 531 spec confirmed. Full barcode 26 chars (AI "90" + payload 24 chars).
@@ -1079,8 +1120,8 @@ object FormatDefinitions {
                     FieldSpec("hora", 16, 2, "Hora"),
                     FieldSpec("minutos", 18, 2, "Minutos"),
                     FieldSpec("numeroSecuencial", 20, 3, "Número secuencial"),
-                    FieldSpec("digitosControl", 23, 2, "Dígitos de control"),
-                ),
+                    FieldSpec("digitosControl", 23, 2, "Dígitos de control")
+                )
         )
 
     // ─── Entidades Depositarias ────────────────────────────────────────────────
@@ -1100,8 +1141,13 @@ object FormatDefinitions {
                     FieldSpec("codigoISIN", 4, 12, "Código ISIN (alfanumérico)"),
                     FieldSpec("ccv", 16, 20, "Código Cuenta de Valores (alfanumérico)"),
                     FieldSpec("numeroAcciones", 36, 10, "Número de acciones"),
-                    FieldSpec("tipoRespuesta", 46, 1, "'1'=Delegación, '2'=Voto a distancia/Asistencia"),
-                ),
+                    FieldSpec(
+                        "tipoRespuesta",
+                        46,
+                        1,
+                        "'1'=Delegación, '2'=Voto a distancia/Asistencia"
+                    )
+                )
         )
 
     // ─── Seguridad Social adicionales ──────────────────────────────────────────
@@ -1120,9 +1166,14 @@ object FormatDefinitions {
                     FieldSpec("tipo", 1, 3, "Indicador de tipo"),
                     FieldSpec("cuentaRestringidaIBAN", 4, 24, "Cuenta restringida en formato IBAN"),
                     FieldSpec("nif", 28, 9, "NIF del deudor (alfanumérico)"),
-                    FieldSpec("numeroDocumento", 37, 15, "Número de documento (alfanumérico; espacios a la derecha)"),
-                    FieldSpec("importe", 52, 10, "Importe en céntimos"),
-                ),
+                    FieldSpec(
+                        "numeroDocumento",
+                        37,
+                        15,
+                        "Número de documento (alfanumérico; espacios a la derecha)"
+                    ),
+                    FieldSpec("importe", 52, 10, "Importe en céntimos")
+                )
         )
 
     // ─── Comunidades Autónomas ──────────────────────────────────────────────────
@@ -1150,8 +1201,8 @@ object FormatDefinitions {
                     FieldSpec("modelo", 4, 3, "Número de modelo"),
                     FieldSpec("añoImpresion", 7, 1, "Año de impresión (último dígito)"),
                     FieldSpec("numeroSerie", 8, 8, "Número de serie"),
-                    FieldSpec("digitoControl", 16, 1, "Dígito de control"),
-                ),
+                    FieldSpec("digitoControl", 16, 1, "Dígito de control")
+                )
         )
 
     // Tipo 010 spec confirmed. Full barcode 23 chars (AI "90" + payload 21 chars).
@@ -1168,27 +1219,38 @@ object FormatDefinitions {
                     FieldSpec("tipo", 1, 3, "Indicador de tipo"),
                     FieldSpec("codigoAdministracion", 4, 5, "Código de administración"),
                     FieldSpec("nif", 9, 9, "NIF del contribuyente (alfanumérico)"),
-                    FieldSpec("anagrama", 18, 4, "Anagrama (alfanumérico; blancos para jurídicas)"),
-                ),
+                    FieldSpec("anagrama", 18, 4, "Anagrama (alfanumérico; blancos para jurídicas)")
+                )
         )
 
     // Tipo 017 spec confirmed. Full barcode 24 chars (AI "90" + payload 22 chars).
     val TIPO_017 =
         FormatSpec(
             tipo = "017",
-            description = "Documentos de autoliquidación Comunidades Autónomas (con dígito paridad)",
+            description =
+                "Documentos de autoliquidación Comunidades Autónomas (con dígito paridad)",
             expectedLength = 22,
             tipoFieldStart = 1,
             fields =
                 listOf(
                     FieldSpec("tipo", 1, 3, "Indicador de tipo"),
-                    FieldSpec("codigoOrganismo", 4, 5, "Código de organismo/emisor (con DC módulo 11)"),
+                    FieldSpec(
+                        "codigoOrganismo",
+                        4,
+                        5,
+                        "Código de organismo/emisor (con DC módulo 11)"
+                    ),
                     FieldSpec("digitoParidad", 9, 1, "Dígito complementario paridad par (= '0')"),
                     FieldSpec("modelo", 10, 3, "Número de modelo"),
-                    FieldSpec("añoImpresionTiradaSerie", 13, 1, "Año impresión/tirada/serie (a decidir por organismo)"),
+                    FieldSpec(
+                        "añoImpresionTiradaSerie",
+                        13,
+                        1,
+                        "Año impresión/tirada/serie (a decidir por organismo)"
+                    ),
                     FieldSpec("numeroSerie", 14, 8, "Número de serie"),
-                    FieldSpec("digitoControl", 22, 1, "Dígito de control"),
-                ),
+                    FieldSpec("digitoControl", 22, 1, "Dígito de control")
+                )
         )
 
     val TIPO_016 =
@@ -1200,10 +1262,15 @@ object FormatDefinitions {
             fields =
                 listOf(
                     FieldSpec("tipo", 1, 3, "Indicador de tipo"),
-                    FieldSpec("codigoOrganismo", 4, 5, "Código de organismo/emisor (con DC módulo 11)"),
+                    FieldSpec(
+                        "codigoOrganismo",
+                        4,
+                        5,
+                        "Código de organismo/emisor (con DC módulo 11)"
+                    ),
                     FieldSpec("nif", 9, 9, "NIF del contribuyente (alfanumérico)"),
-                    FieldSpec("anagrama", 18, 4, "Anagrama (alfanumérico; blancos para jurídicas)"),
-                ),
+                    FieldSpec("anagrama", 18, 4, "Anagrama (alfanumérico; blancos para jurídicas)")
+                )
         )
 
     val TIPO_013 =
@@ -1219,8 +1286,8 @@ object FormatDefinitions {
                     FieldSpec("añoImpresion", 7, 1, "Año de impresión (último dígito)"),
                     FieldSpec("codigoComunidad", 8, 2, "Código de Comunidad Autónoma (61-79)"),
                     FieldSpec("numeroSerie", 10, 6, "Número de serie"),
-                    FieldSpec("digitoControl", 16, 1, "Dígito de control"),
-                ),
+                    FieldSpec("digitoControl", 16, 1, "Dígito de control")
+                )
         )
 
     // ─── All specs ─────────────────────────────────────────────────────────────
@@ -1291,6 +1358,6 @@ object FormatDefinitions {
             // Entidades depositarias
             TIPO_020,
             // Seguridad Social adicionales
-            TIPO_592,
+            TIPO_592
         )
 }

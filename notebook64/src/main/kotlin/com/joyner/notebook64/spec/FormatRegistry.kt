@@ -11,14 +11,13 @@ internal object FormatRegistry {
      * whether the tipo indicator field at [FormatSpec.tipoFieldStart] matches [FormatSpec.tipo].
      * Returns null if no match found.
      */
-    fun detect(input: String): FormatSpec? =
-        specs.values
-            .filter { it.expectedLength == input.length }
-            .firstOrNull { spec ->
-                val end = spec.tipoFieldStart - 1 + 3
-                if (end > input.length) return@firstOrNull false
-                input.substring(spec.tipoFieldStart - 1, end) == spec.tipo
-            }
+    fun detect(input: String): FormatSpec? = specs.values
+        .filter { it.expectedLength == input.length }
+        .firstOrNull { spec ->
+            val end = spec.tipoFieldStart - 1 + FormatSpec.TIPO_LENGTH
+            if (end > input.length) return@firstOrNull false
+            input.substring(spec.tipoFieldStart - 1, end) == spec.tipo
+        }
 
     fun allSpecs(): Collection<FormatSpec> = specs.values
 }

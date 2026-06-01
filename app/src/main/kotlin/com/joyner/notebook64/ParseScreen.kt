@@ -60,41 +60,57 @@ fun ParseScreen(modifier: Modifier = Modifier) {
     var parseError by remember { mutableStateOf<String?>(null) }
 
     val allFormats = remember { availableFormats() }
-    val filteredFormats = remember(filterQuery) {
-        if (filterQuery.isBlank()) allFormats
-        else allFormats.filter {
-            it.tipo.contains(filterQuery, ignoreCase = true) ||
-            it.description.contains(filterQuery, ignoreCase = true)
+    val filteredFormats =
+        remember(filterQuery) {
+            if (filterQuery.isBlank()) {
+                allFormats
+            } else {
+                allFormats.filter {
+                    it.tipo.contains(filterQuery, ignoreCase = true) ||
+                        it.description.contains(filterQuery, ignoreCase = true)
+                }
+            }
         }
-    }
 
     val context = LocalContext.current
     val permissionState = rememberPermissionState(permission = Manifest.permission.CAMERA)
-    val scanBarcodeLauncher = rememberLauncherForActivityResult(
-        contract = ScanCustomCode()
-    ) { result ->
-        when (result) {
-            is QRResult.QRSuccess -> {
-                Log.d("ParseScreen", "QR scan result: ${result.content.rawValue}")
-                inputText = result.content.rawValue ?: ""
+    val scanBarcodeLauncher =
+        rememberLauncherForActivityResult(
+            contract = ScanCustomCode()
+        ) { result ->
+            when (result) {
+                is QRResult.QRSuccess -> {
+                    Log.d("ParseScreen", "QR scan result: ${result.content.rawValue}")
+                    inputText = result.content.rawValue ?: ""
+                }
+
+                is QRResult.QRUserCanceled -> {
+                    Unit
+                }
+
+                is QRResult.QRMissingPermission -> {
+                    permissionState.launchPermissionRequest()
+                }
+
+                is QRResult.QRError -> {
+                    Toast
+                        .makeText(
+                            context,
+                            "Error leyendo código: ${result.exception.message ?: "Error desconocido"}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                }
             }
-            is QRResult.QRUserCanceled -> Unit
-            is QRResult.QRMissingPermission -> permissionState.launchPermissionRequest()
-            is QRResult.QRError -> Toast.makeText(
-                context,
-                "Error leyendo código: ${result.exception.message ?: "Error desconocido"}",
-                Toast.LENGTH_LONG
-            ).show()
         }
-    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
             Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(56.dp),
                 shape = RectangleShape,
                 onClick = {
                     if (permissionState.status.isGranted) {
@@ -123,11 +139,12 @@ fun ParseScreen(modifier: Modifier = Modifier) {
         }
     ) { innerPadding ->
         Column(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp),
+            modifier =
+                modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .verticalScroll(rememberScrollState())
+                    .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text("Cuaderno 64 Parser", style = MaterialTheme.typography.titleLarge)
@@ -155,9 +172,10 @@ fun ParseScreen(modifier: Modifier = Modifier) {
                     label = { Text("Tipo (opcional)") },
                     placeholder = { Text("Auto-detectar") },
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(dropdownExpanded) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryEditable),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryEditable),
                     singleLine = true
                 )
                 ExposedDropdownMenu(
@@ -232,9 +250,10 @@ fun ParseScreen(modifier: Modifier = Modifier) {
                         Spacer(Modifier.height(8.dp))
                         result.fields.forEach { field ->
                             Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = 2.dp),
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 2.dp),
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Text(

@@ -6,33 +6,27 @@ import com.joyner.notebook64.spec.FormatRegistry
 import com.joyner.notebook64.spec.FormatSpec
 
 internal object Notebook64Parser {
-    fun parse(
-        input: String,
-        tipo: String? = null,
-    ): Notebook64Result {
+    fun parse(input: String, tipo: String? = null): Notebook64Result {
         val (cleaned, ai) = detectAndStrip(input)
-        val spec =
-            when {
-                tipo != null -> {
-                    FormatRegistry.getSpec(tipo)
-                        ?: throw IllegalArgumentException("Tipo desconocido: '$tipo'")
-                }
-
-                else -> {
-                    FormatRegistry.detect(cleaned)
-                        ?: throw IllegalArgumentException(
-                            "No se puede detectar el tipo. Longitud=${cleaned.length}, " +
-                                "primeros 3 chars='${cleaned.take(3)}'",
-                        )
-                }
-            }
-        if (cleaned.length != spec.expectedLength) {
-            throw IllegalArgumentException(
-                "Tipo '${spec.tipo}' espera longitud ${spec.expectedLength} " +
-                    "pero recibió ${cleaned.length}",
-            )
+        val spec = resolveSpec(tipo, cleaned)
+        require(cleaned.length == spec.expectedLength) {
+            "Tipo '${spec.tipo}' espera longitud ${spec.expectedLength} " +
+                "pero recibió ${cleaned.length}"
         }
         return parseWithSpec(cleaned, ai, spec)
+    }
+
+    private fun resolveSpec(tipo: String?, cleaned: String): FormatSpec = if (tipo != null) {
+        FormatRegistry.getSpec(tipo)
+            ?: throw IllegalArgumentException("Tipo desconocido: '$tipo'")
+    } else {
+        FormatRegistry.detect(cleaned)
+            ?: throw IllegalArgumentException(
+                "No se puede detectar el tipo. Longitud=${cleaned.length}, " +
+                    "primeros ${FormatSpec.TIPO_LENGTH} chars='${cleaned.take(
+                        FormatSpec.TIPO_LENGTH
+                    )}'"
+            )
     }
 
     /**
@@ -44,29 +38,24 @@ internal object Notebook64Parser {
      * Returns ("", payload) when no AI prefix is detected.
      */
     internal fun detectAndStrip(input: String): Pair<String, String> {
-        for (ai in listOf("(90)", "(21)")) {
-            if (input.startsWith(ai)) {
-                return input.removePrefix(ai) to ai.removeSurrounding("(", ")")
-            }
+        val parenthesised = listOf("(90)", "(21)").firstOrNull { input.startsWith(it) }
+        if (parenthesised != null) {
+            return input.removePrefix(parenthesised) to parenthesised.removeSurrounding("(", ")")
         }
-        for (ai in listOf("90", "21")) {
-            if (input.startsWith(ai)) {
-                val candidate = input.removePrefix(ai)
-                if (FormatRegistry.allSpecs().any { it.expectedLength == candidate.length }) {
-                    return candidate to ai
-                }
+        val bare =
+            listOf("90", "21").firstOrNull { ai ->
+                input.startsWith(ai) &&
+                    FormatRegistry.allSpecs().any {
+                        it.expectedLength ==
+                            input.removePrefix(ai).length
+                    }
             }
-        }
-        return input to ""
+        return if (bare != null) input.removePrefix(bare) to bare else input to ""
     }
 
     internal fun stripGS1Prefix(input: String): String = detectAndStrip(input).first
 
-    private fun parseWithSpec(
-        input: String,
-        ai: String,
-        spec: FormatSpec,
-    ): Notebook64Result {
+    private fun parseWithSpec(input: String, ai: String, spec: FormatSpec): Notebook64Result {
         val offset = ai.length // positions in full barcode = payload position + offset
         val fields =
             buildList {
@@ -77,8 +66,8 @@ internal object Notebook64Parser {
                             value = ai,
                             startPos = 1,
                             length = offset,
-                            description = "Identificador de Aplicación GS1-128",
-                        ),
+                            description = "Identificador de Aplicación GS1-128"
+                        )
                     )
                 }
                 addAll(
@@ -89,15 +78,15 @@ internal object Notebook64Parser {
                             value = input.substring(start, start + fieldSpec.length),
                             startPos = fieldSpec.startPos + offset,
                             length = fieldSpec.length,
-                            description = fieldSpec.description,
+                            description = fieldSpec.description
                         )
-                    },
+                    }
                 )
             }
         return Notebook64Result(
             tipo = spec.tipo,
             rawInput = input,
-            fields = fields,
+            fields = fields
         )
     }
 }

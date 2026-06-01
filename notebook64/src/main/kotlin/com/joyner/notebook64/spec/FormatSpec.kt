@@ -13,11 +13,18 @@ data class FormatSpec(
     val description: String,
     val expectedLength: Int,
     val tipoFieldStart: Int,
-    val fields: List<FieldSpec>,
+    val fields: List<FieldSpec>
 ) {
     init {
-        require(tipo.length == 3) { "tipo must be exactly 3 characters, got: '$tipo'" }
+        require(tipo.length == TIPO_LENGTH) {
+            "tipo must be exactly $TIPO_LENGTH characters, got: '$tipo'"
+        }
         require(expectedLength > 0) { "expectedLength must be positive" }
         require(tipoFieldStart >= 1) { "tipoFieldStart must be >= 1" }
+    }
+
+    companion object {
+        /** Length of the tipo indicator code embedded in every payload. */
+        const val TIPO_LENGTH = 3
     }
 }

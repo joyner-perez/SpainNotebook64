@@ -11,5 +11,5 @@ data class FieldSpec(
     val name: String,
     val startPos: Int,
     val length: Int,
-    val description: String = "",
+    val description: String = ""
 )

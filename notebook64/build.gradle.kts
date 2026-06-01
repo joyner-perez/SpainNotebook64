@@ -1,5 +1,4 @@
 plugins {
-    id("java-library")
     alias(libs.plugins.jetbrains.kotlin.jvm)
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
@@ -17,6 +16,10 @@ kotlin {
 }
 dependencies {
     testImplementation(libs.junit)
+
+    detektPlugins(libs.detekt.formatting)
+    detektPlugins(libs.detekt.rules.libraries)
+    detektPlugins(libs.detekt.rules.ruleauthors)
 }
 
 mavenPublishing {
@@ -26,13 +29,13 @@ mavenPublishing {
     coordinates(
         groupId = "io.github.joyner-perez",
         artifactId = "SpainNotebook64",
-        version = "1.0.0",
+        version = "1.0.0"
     )
 
     pom {
         name.set("GoogleSignInButtonLibrary")
         description.set(
-            "Kotlin library to read barcodes on financial documents in Spain.",
+            "Kotlin library to read barcodes on financial documents in Spain."
         )
         inceptionYear.set("2026")
         url.set("https://github.com/joyner-perez/SpainNotebook64")
@@ -54,7 +57,7 @@ mavenPublishing {
             url.set("https://github.com/joyner-perez/SpainNotebook64")
             connection.set("scm:git://github.com/joyner-perez/SpainNotebook64.git")
             developerConnection.set(
-                "scm:git:ssh://git@github.com/joyner-perez/SpainNotebook64.git",
+                "scm:git:ssh://git@github.com/joyner-perez/SpainNotebook64.git"
             )
         }
     }

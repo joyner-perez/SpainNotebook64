@@ -29,7 +29,8 @@ class Notebook64ParserTest {
 
     @Test
     fun `auto-detection with plain string same as with AI prefix`() {
-        val payload = "501" + "28" + "123" + "0" + "1" + "50" + "1234567" + "89" + "012345000" + "00"
+        val payload =
+            "501" + "28" + "123" + "0" + "1" + "50" + "1234567" + "89" + "012345000" + "00"
         val withAi = parse("(90)$payload")
         val plain = parse(payload)
         // tipo is the same; withAi has 1 extra applicationIdentifier field at the front
@@ -47,7 +48,8 @@ class Notebook64ParserTest {
     @Test
     fun `tipo 534 extracts all expected fields`() {
         // 3+13+4+8+9+4+6 = 47 chars (concepto/NIF/anagrama/codigoTerritorial alfanuméricos)
-        val payload = "534" + "2024000123456" + "    " + "00123456" + "12345678A" + "JLGR" + "280001"
+        val payload =
+            "534" + "2024000123456" + "    " + "00123456" + "12345678A" + "JLGR" + "280001"
         assertEquals(47, payload.length)
         val result = parse(payload)
         assertEquals("534", result.tipo)
@@ -61,7 +63,8 @@ class Notebook64ParserTest {
 
     @Test
     fun `tipo 534 total fields count`() {
-        val payload = "534" + "2024000123456" + "    " + "00123456" + "12345678A" + "JLGR" + "280001"
+        val payload =
+            "534" + "2024000123456" + "    " + "00123456" + "12345678A" + "JLGR" + "280001"
         assertEquals(7, parse(payload).fields.size)
     }
 
@@ -69,7 +72,8 @@ class Notebook64ParserTest {
 
     @Test
     fun `explicit tipo overrides auto-detection`() {
-        val payload = "501" + "28" + "123" + "0" + "1" + "50" + "1234567" + "89" + "012345000" + "00"
+        val payload =
+            "501" + "28" + "123" + "0" + "1" + "50" + "1234567" + "89" + "012345000" + "00"
         val result = parse(payload, tipo = "501")
         assertEquals("501", result.tipo)
     }
@@ -77,13 +81,15 @@ class Notebook64ParserTest {
     @Test(expected = IllegalArgumentException::class)
     fun `explicit tipo with wrong length throws`() {
         // tipo 512 expects 42 chars, give 32-char tipo-501 string
-        val payload = "501" + "28" + "123" + "0" + "1" + "50" + "1234567" + "89" + "012345000" + "00"
+        val payload =
+            "501" + "28" + "123" + "0" + "1" + "50" + "1234567" + "89" + "012345000" + "00"
         parse(payload, tipo = "512")
     }
 
     @Test(expected = IllegalArgumentException::class)
     fun `unknown tipo throws`() {
-        val payload = "501" + "28" + "123" + "0" + "1" + "50" + "1234567" + "89" + "012345000" + "00"
+        val payload =
+            "501" + "28" + "123" + "0" + "1" + "50" + "1234567" + "89" + "012345000" + "00"
         parse(payload, tipo = "999")
     }
 
@@ -121,7 +127,7 @@ class Notebook64ParserTest {
                 "512",
                 "530",
                 "532",
-                "558",
+                "558"
             )
         expected.forEach { tipo ->
             assertNotNull("FormatRegistry missing tipo $tipo", FormatRegistry.getSpec(tipo))
@@ -162,19 +168,9 @@ class Notebook64ParserTest {
     fun `tipo 501 parses sample payload correctly`() {
         // Payload (32 chars): tipo(3)+provincia(2)+municipio(3)+ejercicio(1)+remesa(1)
         //                     +tributo(2)+notificacion(7)+dcClave(2)+importe(9)+dcImporte(2)
-        val sample = "501281230150012345678901234500"
-        //            ^^^--tipo
-        //               ^^--provincia=28 (Madrid)
-        //                 ^^^--municipio=123
-        //                    ^--ejercicio=0
-        //                     ^--remesa=1
-        //                      ^^--tributo=50
-        //                        ^^^^^^^--notificacion=1234567
-        //                               ^^--dcClave=89
-        //                                 ^^^^^^^^^--importe=012345000
-        //                                          ^^--dcImporte=00  ... but only 29 chars above
         // Build exact 32-char payload:
-        val payload = "501" + "28" + "123" + "0" + "1" + "50" + "1234567" + "89" + "012345000" + "00"
+        val payload =
+            "501" + "28" + "123" + "0" + "1" + "50" + "1234567" + "89" + "012345000" + "00"
         assertEquals(32, payload.length)
         val result = parse(payload)
         assertEquals("501", result.tipo)
@@ -192,15 +188,18 @@ class Notebook64ParserTest {
 
     @Test
     fun `tipo 501 auto-detected from 32 char payload`() {
-        val payload = "501" + "28" + "123" + "0" + "1" + "50" + "1234567" + "89" + "012345000" + "00"
+        val payload =
+            "501" + "28" + "123" + "0" + "1" + "50" + "1234567" + "89" + "012345000" + "00"
         val result = parse(payload)
         assertEquals("501", result.tipo)
     }
 
     @Test
     fun `tipo 501 and tipo 534 do not collide in auto-detection`() {
-        val payload501 = "501" + "28" + "123" + "0" + "1" + "50" + "1234567" + "89" + "012345000" + "00"
-        val payload534 = "534" + "2024000123456" + "    " + "00123456" + "12345678A" + "JLGR" + "280001"
+        val payload501 =
+            "501" + "28" + "123" + "0" + "1" + "50" + "1234567" + "89" + "012345000" + "00"
+        val payload534 =
+            "534" + "2024000123456" + "    " + "00123456" + "12345678A" + "JLGR" + "280001"
         assertEquals(32, payload501.length)
         assertEquals(47, payload534.length)
         assertEquals("501", parse(payload501).tipo)
@@ -246,7 +245,9 @@ class Notebook64ParserTest {
     @Test
     fun `tipo 526 parses sample payload correctly`() {
         // 3+6+3+6+5+4+3+1+1+12 = 44 chars
-        val payload = "526" + "300001" + "123" + "620001" + "00001" + "2024" + "100" + "7" + "0" + "000000067890"
+        val payload =
+            "526" + "300001" + "123" + "620001" + "00001" + "2024" + "100" + "7" + "0" +
+                "000000067890"
         assertEquals(44, payload.length)
         val result = parse(payload)
         assertEquals("526", result.tipo)
@@ -356,7 +357,8 @@ class Notebook64ParserTest {
     @Test
     fun `tipo 585 parses sample payload correctly`() {
         // 3+2+3+1+14+10+8+1 = 42 chars
-        val payload = "585" + "28" + "123" + "5" + "12345678901234" + "2601202812" + "00067890" + "0"
+        val payload =
+            "585" + "28" + "123" + "5" + "12345678901234" + "2601202812" + "00067890" + "0"
         assertEquals(42, payload.length)
         val result = parse(payload)
         assertEquals("585", result.tipo)
@@ -374,7 +376,8 @@ class Notebook64ParserTest {
     @Test
     fun `tipo 584 parses sample payload correctly`() {
         // 3+2+3+1+9+10+8+11 = 47 chars (matricula es alfanumérico)
-        val payload = "584" + "28" + "123" + "5" + "123456789" + "2601202812" + "00067890" + "1234ABC5678"
+        val payload =
+            "584" + "28" + "123" + "5" + "123456789" + "2601202812" + "00067890" + "1234ABC5678"
         assertEquals(47, payload.length)
         val result = parse(payload)
         assertEquals("584", result.tipo)
@@ -605,7 +608,8 @@ class Notebook64ParserTest {
 
     @Test
     fun `tipo 503 parses sample payload correctly`() {
-        val payload = "503" + "28" + "123" + "0" + "1" + "50" + "1234567" + "89" + "012345000" + "00"
+        val payload =
+            "503" + "28" + "123" + "0" + "1" + "50" + "1234567" + "89" + "012345000" + "00"
         assertEquals(32, payload.length)
         val result = parse(payload)
         assertEquals("503", result.tipo)
@@ -722,7 +726,9 @@ class Notebook64ParserTest {
     @Test
     fun `tipo 539 parses sample payload correctly`() {
         // 3+5+13+12+3+2+9+2+4 = 53 chars
-        val payload = "539" + "72000" + "2024000123456" + "000000067890" + "600" + "24" + "12345678A" + "4T" + "JLGR"
+        val payload =
+            "539" + "72000" + "2024000123456" + "000000067890" + "600" + "24" + "12345678A" + "4T" +
+                "JLGR"
         assertEquals(53, payload.length)
         val result = parse(payload)
         assertEquals("539", result.tipo)
@@ -773,7 +779,8 @@ class Notebook64ParserTest {
     @Test
     fun `tipo 551 parses sample payload correctly`() {
         // 3+17+12+9+4+2+3 = 50 chars (justificante y NIF alfanuméricos)
-        val payload = "551" + "2024000123456    " + "000000067890" + "12345678A" + "2024" + "00" + "600"
+        val payload =
+            "551" + "2024000123456    " + "000000067890" + "12345678A" + "2024" + "00" + "600"
         assertEquals(50, payload.length)
         val result = parse(payload)
         assertEquals("551", result.tipo)
@@ -988,7 +995,9 @@ class Notebook64ParserTest {
     @Test
     fun `tipo 529 parses sample payload correctly`() {
         // 3+4+6+8+3+13+6+8+1 = 52 chars
-        val payload = "529" + "0051" + "260128" + "12345678" + "001" + "2024000123456" + "123456" + "00067890" + "0"
+        val payload =
+            "529" + "0051" + "260128" + "12345678" + "001" +
+                "2024000123456" + "123456" + "00067890" + "0"
         assertEquals(52, payload.length)
         val result = parse(payload)
         assertEquals("529", result.tipo)
@@ -1007,7 +1016,8 @@ class Notebook64ParserTest {
     @Test
     fun `tipo 528 parses sample payload correctly`() {
         // 3+8+3+13+6+10+6+1 = 50 chars
-        val payload = "528" + "12345678" + "001" + "2024000123456" + "123456" + "0000001234" + "260128" + "0"
+        val payload =
+            "528" + "12345678" + "001" + "2024000123456" + "123456" + "0000001234" + "260128" + "0"
         assertEquals(50, payload.length)
         val result = parse(payload)
         assertEquals("528", result.tipo)
@@ -1025,7 +1035,8 @@ class Notebook64ParserTest {
     @Test
     fun `tipo 525 parses sample payload correctly`() {
         // 3+4+6+8+3+13+6+1 = 44 chars
-        val payload = "525" + "0051" + "260128" + "12345678" + "001" + "2024000123456" + "123456" + "0"
+        val payload =
+            "525" + "0051" + "260128" + "12345678" + "001" + "2024000123456" + "123456" + "0"
         assertEquals(44, payload.length)
         val result = parse(payload)
         assertEquals("525", result.tipo)
@@ -1114,7 +1125,8 @@ class Notebook64ParserTest {
     @Test
     fun `tipo 592 parses sample payload correctly`() {
         // 3+24+9+15+10 = 61 chars (IBAN, NIF y numDoc alfanuméricos)
-        val payload = "592" + "ES8021000813610123456789" + "12345678A" + "2024URE000001  " + "0000067890"
+        val payload =
+            "592" + "ES8021000813610123456789" + "12345678A" + "2024URE000001  " + "0000067890"
         assertEquals(61, payload.length)
         val result = parse(payload)
         assertEquals("592", result.tipo)
@@ -1191,7 +1203,8 @@ class Notebook64ParserTest {
     @Test
     fun `tipo 530 parses sample payload correctly`() {
         // 3+13+12+3+2+9+2+4 = 48 chars
-        val payload = "530" + "2024000123456" + "000000067890" + "100" + "24" + "12345678A" + "0A" + "JLGR"
+        val payload =
+            "530" + "2024000123456" + "000000067890" + "100" + "24" + "12345678A" + "0A" + "JLGR"
         assertEquals(48, payload.length)
         val result = parse(payload)
         assertEquals("530", result.tipo)
@@ -1209,7 +1222,8 @@ class Notebook64ParserTest {
     @Test
     fun `tipo 512 parses sample payload correctly`() {
         // 3+3+14+2+2+8+1+9 = 42 chars
-        val payload = "512" + "111" + "00000000012345" + "28" + "24" + "12345678" + "9" + "12345678A"
+        val payload =
+            "512" + "111" + "00000000012345" + "28" + "24" + "12345678" + "9" + "12345678A"
         assertEquals(42, payload.length)
         val result = parse(payload)
         assertEquals("512", result.tipo)
@@ -1267,7 +1281,8 @@ class Notebook64ParserTest {
 
     @Test
     fun `result field helper returns null for missing field`() {
-        val payload = "501" + "28" + "123" + "0" + "1" + "50" + "1234567" + "89" + "012345000" + "00"
+        val payload =
+            "501" + "28" + "123" + "0" + "1" + "50" + "1234567" + "89" + "012345000" + "00"
         val result = parse(payload)
         assertNull(result.field("nonExistent"))
         assertNull(result.value("nonExistent"))
@@ -1275,7 +1290,8 @@ class Notebook64ParserTest {
 
     @Test
     fun `rawInput preserved in result`() {
-        val payload = "501" + "28" + "123" + "0" + "1" + "50" + "1234567" + "89" + "012345000" + "00"
+        val payload =
+            "501" + "28" + "123" + "0" + "1" + "50" + "1234567" + "89" + "012345000" + "00"
         val result = parse(payload)
         assertEquals(payload, result.rawInput)
     }
