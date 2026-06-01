@@ -13,7 +13,7 @@ data class FormatSpec(
     val description: String,
     val expectedLength: Int,
     val tipoFieldStart: Int,
-    val fields: List<FieldSpec>
+    val fields: List<FieldSpec>,
 ) {
     init {
         require(tipo.length == 3) { "tipo must be exactly 3 characters, got: '$tipo'" }

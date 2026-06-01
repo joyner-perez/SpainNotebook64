@@ -5,5 +5,5 @@ data class ParsedField(
     val value: String,
     val startPos: Int,
     val length: Int,
-    val description: String = ""
+    val description: String = "",
 )

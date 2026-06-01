@@ -17,10 +17,13 @@ import com.joyner.notebook64.spec.FormatRegistry
  * @throws IllegalArgumentException if the tipo is unknown or the string length does not
  *         match the expected length for the given (or detected) tipo.
  */
-fun parse(input: String, tipo: String? = null): Notebook64Result =
-    Notebook64Parser.parse(input, tipo)
+fun parse(
+    input: String,
+    tipo: String? = null,
+): Notebook64Result = Notebook64Parser.parse(input, tipo)
 
 fun availableFormats(): List<FormatInfo> =
-    FormatRegistry.allSpecs()
+    FormatRegistry
+        .allSpecs()
         .map { FormatInfo(it.tipo, it.description) }
         .sortedBy { it.tipo }

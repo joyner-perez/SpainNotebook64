@@ -1,7 +1,6 @@
 package com.joyner.notebook64.spec
 
 internal object FormatRegistry {
-
     private val specs: Map<String, FormatSpec> =
         FormatDefinitions.all.associateBy { it.tipo }
 
