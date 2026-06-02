@@ -38,6 +38,16 @@ android {
     buildFeatures {
         compose = true
     }
+    flavorDimensions += listOf("services")
+    productFlavors {
+        create("yesGoogleServices") {
+            dimension = "services"
+            isDefault = true
+        }
+        create("noGoogleServices") {
+            dimension = "services"
+        }
+    }
 }
 
 dependencies {
@@ -51,7 +61,8 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.accompanist.permissions)
-    implementation(libs.quickie)
+    "yesGoogleServicesImplementation"(libs.quickie.unbundled)
+    "noGoogleServicesImplementation"(libs.quickie.bundled)
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
