@@ -48,4 +48,3 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublishPlugin" }
 sort-dependencies = { id = "com.squareup.sort-dependencies", version.ref = "sortDependencies" }
-
