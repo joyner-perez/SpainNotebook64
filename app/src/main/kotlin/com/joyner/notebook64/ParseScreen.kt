@@ -114,20 +114,16 @@ fun ParseScreen(modifier: Modifier = Modifier) {
                         .height(56.dp),
                 shape = RectangleShape,
                 onClick = {
-                    if (permissionState.status.isGranted) {
-                        scanBarcodeLauncher.launch(
-                            ScannerConfig.build {
-                                setBarcodeFormats(listOf(BarcodeFormat.FORMAT_CODE_128))
-                                setOverlayStringRes(R.string.text_read_barcode)
-                                setOverlayDrawableRes(R.drawable.ic_barcode)
-                                setShowTorchToggle(true)
-                                setShowCloseButton(true)
-                                setKeepScreenOn(true)
-                            }
-                        )
-                    } else {
-                        permissionState.launchPermissionRequest()
-                    }
+                    scanBarcodeLauncher.launch(
+                        ScannerConfig.build {
+                            setBarcodeFormats(listOf(BarcodeFormat.FORMAT_CODE_128))
+                            setOverlayStringRes(R.string.text_read_barcode)
+                            setOverlayDrawableRes(R.drawable.ic_barcode)
+                            setShowTorchToggle(true)
+                            setShowCloseButton(true)
+                            setKeepScreenOn(true)
+                        }
+                    )
                 }
             ) {
                 Icon(
