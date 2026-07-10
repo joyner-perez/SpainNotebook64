@@ -2,7 +2,7 @@
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.joyner-perez/SpainNotebook64?color=blue&label=Maven%20Central)](https://central.sonatype.com/artifact/io.github.joyner-perez/SpainNotebook64)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.3-7F52FF.svg?logo=kotlin)](https://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.4.0-7F52FF.svg?logo=kotlin)](https://kotlinlang.org)
 
 Kotlin library to read and decode the barcodes printed on Spanish financial documents — the
 **CECA/AEB Cuaderno 64** standard (June 2016). Given a barcode payload string it auto-detects the
