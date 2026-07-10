@@ -16,21 +16,21 @@ Gradle (Kotlin DSL):
 
 ```kotlin
 dependencies {
-    implementation("io.github.joyner-perez:SpainNotebook64:1.0.0")
+    implementation("io.github.joyner-perez:SpainNotebook64:1.0.2")
 }
 ```
 
 Gradle (Groovy):
 
 ```groovy
-implementation 'io.github.joyner-perez:SpainNotebook64:1.0.0'
+implementation 'io.github.joyner-perez:SpainNotebook64:1.0.2'
 ```
 
 Version catalog (`gradle/libs.versions.toml`):
 
 ```toml
 [versions]
-spainNotebook64 = "1.0.0"
+spainNotebook64 = "1.0.2"
 
 [libraries]
 spain-notebook64 = { module = "io.github.joyner-perez:SpainNotebook64", version.ref = "spainNotebook64" }
@@ -50,7 +50,7 @@ Maven:
 <dependency>
     <groupId>io.github.joyner-perez</groupId>
     <artifactId>SpainNotebook64</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.2</version>
 </dependency>
 ```
 
