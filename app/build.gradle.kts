@@ -7,7 +7,7 @@ android {
     namespace = "com.joyner.notebook64"
     compileSdk {
         version =
-            release(36) {
+            release(37) {
                 minorApiLevel = 1
             }
     }
@@ -15,11 +15,9 @@ android {
     defaultConfig {
         applicationId = "com.joyner.notebook64"
         minSdk = 23
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -64,10 +62,5 @@ dependencies {
     "yesGoogleServicesImplementation"(libs.quickie.unbundled)
     "noGoogleServicesImplementation"(libs.quickie.bundled)
     testImplementation(libs.junit)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(libs.androidx.junit)
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
 }

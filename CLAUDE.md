@@ -27,9 +27,9 @@ Package root: `com.joyner.notebook64`
 ## Tech Stack
 
 - **UI:** 100% Jetpack Compose + Material3. No XML layouts.
-- **Language:** Kotlin 2.2.10
-- **AGP:** 9.2.1 | **Gradle:** 9.4.1
-- **SDK:** minSdk 23 / compileSdk+targetSdk 36
+- **Language:** Kotlin 2.4.10
+- **AGP:** 9.4.0 | **Gradle:** 9.7.1
+- **SDK:** minSdk 23 / compileSdk 37.1 / targetSdk 36
 - **Dependencies:** Centralized in `gradle/libs.versions.toml` (version catalog). Add all new deps there.
 - **DI / Networking / DB:** None currently. Add Hilt, Retrofit, Room via version catalog when needed.
 
@@ -43,6 +43,6 @@ No architecture pattern enforced yet. When adding features, follow MVVM with uni
 
 ## Key Constraints
 
-- Java 11 source/target compatibility (set in both modules).
+- Java 21 source/target compatibility (set in both modules).
 - Dynamic color enabled for Android 12+ in `Theme.kt`; light/dark schemes defined there.
 - `gradle.properties` sets JVM max heap to 2048m — don't lower this.
