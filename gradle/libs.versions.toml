@@ -1,12 +1,11 @@
 [versions]
-agp = "9.4.0"
-coreKtx = "1.19.0"
+agp = "9.4.1"
+coreKtx = "1.19.1"
 junit = "4.13.2"
 lifecycleRuntimeKtx = "2.11.0"
 activityCompose = "1.13.0"
-kotlin = "2.4.10"
-composeBom = "2026.08.00"
-jetbrainsKotlinJvm = "2.4.10"
+kotlin = "2.4.21"
+composeBom = "2026.09.00"
 accompanist = "0.37.3"
 quickie = "1.12.0"
 caupain = "1.10.1"
@@ -37,7 +36,7 @@ detekt-rules-ruleauthors = { group = "io.gitlab.arturbosch.detekt", name = "dete
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 caupain = { id = "com.deezer.caupain", version.ref = "caupain" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
